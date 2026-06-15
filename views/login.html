@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberOrtz — Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-light d-flex align-items-center justify-content-center" style="height: 100vh;">
+
+<div class="card bg-secondary text-light" style="width: 350px;">
+  <div class="card-body">
+    <h3 class="text-center mb-4">🎮 CyberOrtz</h3>
+    <h5 class="text-center mb-3">Iniciar Sesión</h5>
+
+    <div class="mb-3">
+      <label class="form-label">Usuario</label>
+      <input type="text" id="input-usuario" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Contraseña</label>
+      <input type="password" id="input-password" class="form-control">
+    </div>
+
+    <div id="mensaje-error" class="text-danger text-center mb-3"></div>
+
+    <button id="btn-login" class="btn btn-primary w-100">Ingresar</button>
+    <a href="/" class="btn btn-outline-light w-100 mt-2">Volver al inicio</a>
+  </div>
+</div>
+
+<script src="/js/login.js"></script>
+</body>
+</html>
