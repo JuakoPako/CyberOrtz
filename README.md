@@ -51,13 +51,14 @@ Descargar desde GitHub → Code → Download ZIP, descomprimir.
 ### 3. Instalar dependencias
 
 ```bash
-npm install
+npm install -y
+npm install express mysql2
 ```
 
 ### 4. Ejecutar el servidor
 
 ```bash
-node server.js
+npm run start
 ```
 
 El servidor quedará corriendo en `http://localhost:3000`
@@ -75,7 +76,7 @@ password: ''
 database: 'cyberortz'
 ```
 
-> Si tu instalación de MySQL usa una contraseña distinta para `root`, edita el campo `password` en ese archivo antes de ejecutar.
+> Si la instalación de MySQL usa una contraseña distinta para `root`, edita el campo `password` en ese archivo antes de ejecutar.
 
 El archivo SQL para importar se encuentra en la raíz del proyecto:
 ```
