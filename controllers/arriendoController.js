@@ -68,6 +68,10 @@ const iniciar = (req, res) => {
         res.status(400).json({ error: 'Las horas deben ser un número mayor a 0' });
         return;
     }
+    if (horas > 12){
+        res.status(400).json({error: 'El maximo de horas permitidas son 12'});
+        return;
+    }
 
     const sqlInsertar = `
     INSERT INTO arriendos (estacion_id, horas, hora_inicio, hora_fin, estado)

@@ -8,7 +8,7 @@ const plantilla = document.getElementById('plantilla-fila');
 
 const inputId = document.getElementById('estacion-id');
 const inputNombre = document.getElementById('input-nombre');
-const cardArriendo = document.getElementById('card-arriendo');
+const modalArriendoEl = document.getElementById('modal-arriendo');
 const arriendoNombreEstacion = document.getElementById('arriendo-nombre-estacion');
 const inputArriendoEstacionId = document.getElementById('arriendo-estacion-id');
 const inputHoras = document.getElementById('input-horas');
@@ -152,7 +152,9 @@ const abrirFormularioArriendo = (estacion) => {
   inputHoras.value = '';
   precioHoraSeleccionada = estacion.precioHora;
   actualizarResumenPrecio();
-  cardArriendo.classList.remove('d-none');
+
+  const modal = new bootstrap.Modal(modalArriendoEl);
+  modal.show();
 };
 
 const confirmarArriendo = async () => {
@@ -163,6 +165,11 @@ const confirmarArriendo = async () => {
     alert('Ingrese una cantidad de horas válida.');
     return;
   }
+
+  if (horas > 12){
+    alert('El maximo permitido son de 12 horas');
+    return;
+  }
   try {
     const respuesta = await fetch('/api/arriendos', {
       method: 'POST',
@@ -170,11 +177,11 @@ const confirmarArriendo = async () => {
       body: JSON.stringify({ estacionId: estacionId, horas: horas })
     });
     if (respuesta.ok) {
-      cardArriendo.classList.add('d-none');
-      cargarEstaciones();
-      cargarArriendos();
+    cancelarArriendo();
+    cargarEstaciones();
+    cargarArriendos();
     } else {
-      alert('No se pudo iniciar el arriendo');
+        alert('No se pudo iniciar el arriendo');
     }
   } catch (err) {
     alert('Error al iniciar arriendo: ' + err.message);
@@ -182,9 +189,9 @@ const confirmarArriendo = async () => {
 };
 
 const cancelarArriendo = () => {
-  cardArriendo.classList.add('d-none');
+  const modal = bootstrap.Modal.getInstance(modalArriendoEl);
+  if (modal) modal.hide();
 };
-
 const eliminarEstacion = async (id) => {
   if (!confirm('¿Seguro que deseas eliminar esta estación?')) return;
 
@@ -319,9 +326,10 @@ const finalizarArriendo = async (id) => {
 btnGuardar.addEventListener('click', guardar);
 btnCancelar.addEventListener('click', limpiarFormulario);
 btnConfirmarArriendo.addEventListener('click', confirmarArriendo);
-btnCancelarArriendo.addEventListener('click', cancelarArriendo);
+
 inputHoras.addEventListener('input', actualizarResumenPrecio);
 
+document.getElementById('btn-cancelar-arriendo-footer').addEventListener('click', cancelarArriendo);
 
 cargarEstaciones();
-cargarArriendos();
+cargarArriendos(); 
