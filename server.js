@@ -5,6 +5,7 @@ const PORT = 3000;
 
 const estacionController = require('./controllers/estacionController');
 const inicioSesionController = require('./controllers/InicioSesionController');
+const arriendoController = require('./controllers/arriendoController');
 
 // Permite leer JSON en el body de las peticiones
 app.use(express.json());
@@ -30,6 +31,10 @@ app.get('/api/estaciones', estacionController.listar);
 app.post('/api/estaciones', estacionController.agregar);
 app.put('/api/estaciones/:id', estacionController.editar);
 app.delete('/api/estaciones/:id', estacionController.eliminar);
+
+app.get('/api/arriendos', arriendoController.listar);
+app.post('/api/arriendos', arriendoController.iniciar);
+app.put('/api/arriendos/:id/finalizar', arriendoController.finalizar);
 
 // ── Ruta de la API: Login ──────────────────────────────────
 app.post('/api/login', inicioSesionController.iniciarSesion);
