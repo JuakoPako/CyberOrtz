@@ -40,5 +40,5 @@ app.put('/api/arriendos/:id/finalizar', arriendoController.finalizar);
 app.post('/api/login', inicioSesionController.iniciarSesion);
 
 app.listen(PORT, () => {
-  console.log(`🎮 CyberOrtz corriendo en http://localhost:${PORT}`);
+  console.log(`CyberOrtz corriendo`);
 });
