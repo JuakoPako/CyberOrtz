@@ -36,19 +36,9 @@ const listar = (req, res) => {
                     return;
                 }
 
-                const arriendos = [];
-                for (let i = 0; i < filas.length; i++) {
-                    const fila = filas[i];
-                    const arriendo = new Arriendo(
-                        fila.id,
-                        fila.estacion_id,
-                        fila.horas,
-                        fila.hora_inicio,
-                        fila.hora_fin,
-                        fila.estado
-                    );
-                    arriendos.push(arriendo);
-                }
+                const arriendos = filas.map(
+                    (fila) => new Arriendo(fila.id, fila.estacion_id, fila.horas, fila.hora_inicio, fila.hora_fin, fila.estado)
+                );
                 res.json(arriendos);
             });
         });
@@ -68,8 +58,8 @@ const iniciar = (req, res) => {
         res.status(400).json({ error: 'Las horas deben ser un número mayor a 0' });
         return;
     }
-    if (horas > 12){
-        res.status(400).json({error: 'El maximo de horas permitidas son 12'});
+    if (horas > 12) {
+        res.status(400).json({ error: 'El maximo de horas permitidas son 12' });
         return;
     }
 

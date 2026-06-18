@@ -8,21 +8,9 @@ const listar = (req, res) => {
       return;
     }
 
-    const estaciones = [];
-    for (let i = 0; i < filas.length; i++) {
-      const fila = filas[i];
-      const estacion = new Estacion(
-        fila.id,
-        fila.nombre,
-        fila.tipo,
-        fila.plataforma,
-        fila.precio_hora,
-        fila.disponible,
-        fila.descripcion
-      );
-      estaciones.push(estacion);
-    }
-
+    const estaciones = filas.map(
+      (fila) => new Estacion(fila.id, fila.nombre, fila.tipo, fila.plataforma, fila.precio_hora, fila.disponible, fila.descripcion)
+    );
     res.json(estaciones);
   });
 };
