@@ -1,7 +1,6 @@
 const db = require('../config/db');
 const Estacion = require('../model/Estacion');
 
-// ── GET /api/estaciones — Listar todas ───────────────────
 const listar = (req, res) => {
   db.query('SELECT * FROM estaciones', (err, filas) => {
     if (err) {
@@ -28,7 +27,7 @@ const listar = (req, res) => {
   });
 };
 
-// ── POST /api/estaciones — Agregar una ────────────────────
+
 const agregar = (req, res) => {
   const nombre = req.body.nombre;
   const tipo = req.body.tipo;
@@ -56,7 +55,7 @@ const agregar = (req, res) => {
   );
 };
 
-// ── PUT /api/estaciones/:id — Editar una ──────────────────
+
 const editar = (req, res) => {
   const id = req.params.id;
   const nombre = req.body.nombre;
@@ -88,7 +87,7 @@ const editar = (req, res) => {
   );
 };
 
-// ── DELETE /api/estaciones/:id — Eliminar una ─────────────
+
 const eliminar = (req, res) => {
   const id = req.params.id;
 

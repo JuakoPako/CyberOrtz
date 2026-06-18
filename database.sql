@@ -8,8 +8,8 @@ CREATE TABLE usuarios (
 );
 
 INSERT INTO usuarios (usuario, password) VALUES
-('admin', 'admin123'),
-('dueno', 'dueno2024');
+('admin', '1234'),
+('dueno', 'dueno');
 
 CREATE TABLE estaciones (
   id INT AUTO_INCREMENT PRIMARY KEY,

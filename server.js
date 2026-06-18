@@ -7,13 +7,13 @@ const estacionController = require('./controllers/estacionController');
 const inicioSesionController = require('./controllers/InicioSesionController');
 const arriendoController = require('./controllers/arriendoController');
 
-// Permite leer JSON en el body de las peticiones
+
 app.use(express.json());
 
-// Sirve archivos estáticos (css, js, img) desde /public
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ── Rutas para servir las páginas HTML (vistas) ──────────
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
@@ -26,7 +26,7 @@ app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'admin', 'panel.html'));
 });
 
-// ── Rutas de la API: Estaciones (CRUD) ────────────────────
+
 app.get('/api/estaciones', estacionController.listar);
 app.post('/api/estaciones', estacionController.agregar);
 app.put('/api/estaciones/:id', estacionController.editar);
@@ -36,7 +36,7 @@ app.get('/api/arriendos', arriendoController.listar);
 app.post('/api/arriendos', arriendoController.iniciar);
 app.put('/api/arriendos/:id/finalizar', arriendoController.finalizar);
 
-// ── Ruta de la API: Login ──────────────────────────────────
+
 app.post('/api/login', inicioSesionController.iniciarSesion);
 
 app.listen(PORT, () => {
