@@ -90,7 +90,7 @@ database.sql
 | Usuario | Contraseña | Acceso |
 |---|---|---|
 | `admin` | `1234` | Panel de administración |
-| `dueno` | `dueno` | Panel de administración |
+| `dueno` | `dueno2024` | Panel de administración |
 
 ---
 
