@@ -51,7 +51,7 @@ Descargar desde GitHub → Code → Download ZIP, descomprimir.
 ### 3. Instalar dependencias
 
 ```bash
-npm install -y
+npm init -y
 npm install express mysql2
 ```
 
