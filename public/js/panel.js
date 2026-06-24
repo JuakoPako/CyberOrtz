@@ -177,10 +177,24 @@ const confirmarArriendo = async () => {
       body: JSON.stringify({ estacionId: estacionId, horas: horas })
     });
     if (respuesta.ok) {
-    cancelarArriendo();
-    cargarEstaciones();
-    cargarArriendos();
-    } else {
+  const resultado = await respuesta.json();
+
+  
+  const estacion = estacionesCache.find(e => e.id == inputArriendoEstacionId.value);
+
+  await generarBoucher({
+    id: resultado.id,
+    nombreEstacion: estacion ? estacion.nombre : 'Estación #' + inputArriendoEstacionId.value,
+    horas: Number(inputHoras.value),
+    precioHora: precioHoraSeleccionada,
+    horaInicio: new Date().toISOString(),
+    horaFin: new Date(Date.now() + Number(inputHoras.value) * 3600000).toISOString()
+  });
+
+  cancelarArriendo();
+  cargarEstaciones();
+  cargarArriendos();
+} else {
         alert('No se pudo iniciar el arriendo');
     }
   } catch (err) {
@@ -321,6 +335,96 @@ const finalizarArriendo = async (id) => {
   } catch (err) {
     alert('Error al finalizar: ' + err.message);
   }
+};
+
+const generarBoucher = async (datos) => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a5' });
+
+  const subtotal = datos.horas * datos.precioHora;
+  const iva = subtotal * 0.19;
+  const total = subtotal + iva;
+
+  const fmt = (n) => '$' + Math.round(n).toLocaleString('es-CL');
+  const fechaInicio = new Date(datos.horaInicio).toLocaleString('es-CL', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+  const fechaFin = new Date(datos.horaFin).toLocaleString('es-CL', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+
+  
+  try {
+    const resp = await fetch('/img/CyberOrtz.png');
+    const blob = await resp.blob();
+    const base64 = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+    doc.addImage(base64, 'PNG', 62, 4, 20, 22);  
+  } catch (e) {
+    
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(18);
+    doc.text('CyberOrtz', 74, 20, { align: 'center' });
+  }
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.text('Boleta de Arriendo', 74, 30, { align: 'center' }); 
+
+  doc.setDrawColor(200);
+  doc.line(15, 34, 133, 34);
+
+  const filas = [
+    ['N° Boleta', '#' + datos.id],
+    ['Estacion', datos.nombreEstacion],
+    ['Horas', datos.horas + ' horas'],
+    ['Hora inicio', fechaInicio],
+    ['Hora fin', fechaFin],
+  ];
+
+  let y = 42;
+  doc.setFontSize(10);
+  filas.forEach(([label, valor]) => {
+    doc.setTextColor(120);
+    doc.text(label, 15, y);
+    doc.setTextColor(0);
+    doc.setFont('helvetica', 'bold');
+    doc.text(valor, 133, y, { align: 'right' });
+    doc.setFont('helvetica', 'normal');
+    y += 8;
+  });
+
+  doc.line(15, y, 133, y);
+  y += 8;
+
+  const resumen = [
+    ['Precio por hora', fmt(datos.precioHora)],
+    ['Subtotal', fmt(subtotal)],
+    ['IVA (19%)', fmt(iva)],
+  ];
+
+  resumen.forEach(([label, valor]) => {
+    doc.setTextColor(120);
+    doc.text(label, 15, y);
+    doc.setTextColor(0);
+    doc.text(valor, 133, y, { align: 'right' });
+    y += 8;
+  });
+
+  doc.setFillColor(240, 240, 240);
+  doc.roundedRect(15, y, 118, 12, 2, 2, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(12);
+  doc.setTextColor(0);
+  doc.text('Total', 20, y + 8);
+  doc.text(fmt(total), 128, y + 8, { align: 'right' });
+
+  y += 22;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(150);
+  doc.text('Gracias por su preferencia — CyberOrtz 2026', 74, y, { align: 'center' });
+
+  doc.save('boleta-arriendo-' + datos.id + '.pdf');
 };
 
 btnGuardar.addEventListener('click', guardar);
