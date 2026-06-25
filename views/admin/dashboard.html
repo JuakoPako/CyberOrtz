@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberOrtz — Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-light">
+
+<nav class="navbar navbar-dark bg-black px-3">
+  <a class="navbar-brand fw-bold" href="/">🎮 CyberOrtz — Dashboard</a>
+  <div class="d-flex gap-2">
+    <a href="/admin" class="btn btn-outline-light">Panel Admin</a>
+    <a href="/" class="btn btn-outline-light">Salir</a>
+  </div>
+</nav>
+
+<div class="container mt-4">
+
+  <h3 class="mb-4">Gestión general del sistema</h3>
+
+  <!-- Tarjetas KPI -->
+  <div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+      <div class="card bg-secondary text-light h-100">
+        <div class="card-body text-center">
+          <p class="text-uppercase small mb-1">Estaciones totales</p>
+          <h2 class="fw-bold mb-0" id="kpi-total-estaciones">-</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card bg-success text-light h-100">
+        <div class="card-body text-center">
+          <p class="text-uppercase small mb-1">Disponibles</p>
+          <h2 class="fw-bold mb-0" id="kpi-disponibles">-</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card bg-danger text-light h-100">
+        <div class="card-body text-center">
+          <p class="text-uppercase small mb-1">Ocupadas</p>
+          <h2 class="fw-bold mb-0" id="kpi-ocupadas">-</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card bg-info text-light h-100">
+        <div class="card-body text-center">
+          <p class="text-uppercase small mb-1">Arriendos finalizados (mes)</p>
+          <h2 class="fw-bold mb-0" id="kpi-arriendos-mes">-</h2>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row g-3 mb-4">
+
+    <div class="col-md-6">
+      <div class="card bg-secondary text-light h-100">
+        <div class="card-header">
+          <strong>Ganancias del mes</strong>
+        </div>
+        <div class="card-body">
+          <p class="mb-1">Subtotal: <span id="mes-subtotal">$0</span></p>
+          <p class="mb-1">IVA (19%): <span id="mes-iva">$0</span></p>
+          <p class="mb-0 fw-bold fs-4">Total: <span id="mes-total">$0</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card bg-secondary text-light h-100">
+        <div class="card-header">
+          <strong>Ganancias del año (total)</strong>
+        </div>
+        <div class="card-body">
+          <p class="mb-1">Subtotal: <span id="total-subtotal">$0</span></p>
+          <p class="mb-1">IVA (19%): <span id="total-iva">$0</span></p>
+          <p class="mb-0 fw-bold fs-4">Total: <span id="total-total">$0</span></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <h4 class="mt-5">Ganancias por estación</h4>
+  <p class="text-muted small">Se considera unicamente el monto generado por arriendos <strong>finalizados</strong> (historico completo).</p>
+
+  <table class="table table-bordered table-dark align-middle">
+    <thead>
+      <tr>
+        <th>Estación</th>
+        <th>Tipo</th>
+        <th>Plataforma</th>
+        <th>Estado actual</th>
+        <th>Arriendos finalizados</th>
+        <th>Horas arrendadas</th>
+        <th>Subtotal</th>
+        <th>IVA (19%)</th>
+        <th>Total generado</th>
+      </tr>
+    </thead>
+    <tbody id="cuerpo-tabla-ranking"></tbody>
+  </table>
+
+  <template id="plantilla-fila-ranking">
+    <tr>
+      <td class="col-rk-nombre"></td>
+      <td class="col-rk-tipo"></td>
+      <td class="col-rk-plataforma"></td>
+      <td class="col-rk-estado"></td>
+      <td class="col-rk-arriendos"></td>
+      <td class="col-rk-horas"></td>
+      <td class="col-rk-subtotal"></td>
+      <td class="col-rk-iva"></td>
+      <td class="col-rk-total fw-bold text-success"></td>
+    </tr>
+  </template>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>
